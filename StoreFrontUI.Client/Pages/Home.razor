@@ -1,0 +1,63 @@
+﻿@page "/"
+
+<div class="storefront">
+    <header class="welcome-header">
+        <h1>Welcome to the Fantasy Store</h1>
+        <p>Your destination for magical potions, enchanted artifacts, and more!</p>
+    </header>
+
+    <button class="login-button" @onclick="ShowLoginPrompt">Login</button>
+
+    @if (isLoginVisible)
+    {
+        <div class="login-prompt">
+            <input placeholder="Username" @bind="enteredUsername" />
+            <input placeholder="Password" type="password" @bind="enteredPassword" />
+            <button @onclick="Login">Submit</button>
+            @if (!string.IsNullOrEmpty(loginMessage))
+            {
+                <p>@loginMessage</p>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    // Dictionary to store usernames and passwords (example only, not secure)
+    private Dictionary<string, string> userCredentials = new Dictionary<string, string>
+    {
+        { "user1", "pass123" },
+        { "user2", "pass456" }
+    };
+
+    // Variables for login prompt visibility and input values
+    private bool isLoginVisible = false;
+    private string enteredUsername;
+    private string enteredPassword;
+    private string loginMessage;
+
+    // Method to show the login prompt
+    private void ShowLoginPrompt()
+    {
+        isLoginVisible = true;
+        loginMessage = string.Empty; // Clear any previous messages
+    }
+
+    // Method to handle login
+    private void Login()
+    {
+        // Check if the entered username and password match any in the dictionary
+        if (userCredentials.TryGetValue(enteredUsername, out var correctPassword) && correctPassword == enteredPassword)
+        {
+            // Redirect user to their specific page
+            NavigationManager.NavigateTo($"/{enteredUsername}");
+        }
+        else
+        {
+            loginMessage = "Invalid username or password.";
+        }
+    }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+}

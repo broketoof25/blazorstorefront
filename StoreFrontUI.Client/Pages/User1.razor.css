@@ -1,0 +1,11 @@
+﻿.user-page {
+    padding: 20px;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+.page-header h1 {
+    font-size: 2em;
+    color: #4B0082; /* Indigo color for a fantasy feel */
+    margin-bottom: 10px;
+}
